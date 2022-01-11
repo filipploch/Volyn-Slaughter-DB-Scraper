@@ -109,29 +109,22 @@ class Victim:
 
 
 if __name__ == '__main__':
-    # for site in range(2835):
-    #     if not site:
-    #         site_link = 'https://zbrodniawolynska.pl/zw1/form/247,Baza-Ofiar-Zbrodni-Wolynskiej.html'
-    #     else:
-    #         site_link = f'https://zbrodniawolynska.pl/zw1/form/247,Baza-Ofiar-Zbrodni-Wolynskiej.html?page={site}'
-    #         print(site_link)
-    #     links = VictimLinkGetter(site_link).get_all_links()
-    #     for link in links:
-    #         conn = DatabaseSetup().create_connection()
-    #         with conn:
-    #             link = f'https://zbrodniawolynska.pl{link["href"]}'
-    #             victim = Victim(VictimDataScraper(link).get_data())
-    #             try:
-    #                 DatabaseSetup().add_record_to_db(conn, victim.to_json())
-    #                 sleep(0.01)
-    #             except Error as e:
-    #                 print(e)
+    for site in range(2835):
+        if not site:
+            site_link = 'https://zbrodniawolynska.pl/zw1/form/247,Baza-Ofiar-Zbrodni-Wolynskiej.html'
+        else:
+            site_link = f'https://zbrodniawolynska.pl/zw1/form/247,Baza-Ofiar-Zbrodni-Wolynskiej.html?page={site}'
+        links = VictimLinkGetter(site_link).get_all_links()
+        for link in links:
+            conn = DatabaseSetup().create_connection()
+            with conn:
+                link = f'https://zbrodniawolynska.pl{link["href"]}'
+                victim = Victim(VictimDataScraper(link).get_data())
+                try:
+                    DatabaseSetup().add_record_to_db(conn, victim.to_json())
+                    sleep(0.01)
+                except Error as e:
+                    print(e)
 
-    # conn = DatabaseSetup().create_connection()
-    # with conn:
-    #     try:
-    #         DatabaseSetup().update_pod_value(conn)
-    #     except Error as e:
-    #         print(e)
 
 
