@@ -7,7 +7,7 @@ from sqlite3 import connect, Error
 
 class DatabaseSetup:
     def __init__(self):
-        self.db_file = 'zbrodnia_wolynska.db'
+        self.db_file = 'Volyn-Slaughter.db'
 
     def create_connection(self):
         conn = None
