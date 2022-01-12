@@ -35,24 +35,6 @@ class DatabaseSetup:
                             ])
         conn.commit()
 
-    def update_pod_value(self, conn):
-        for i in range(1, 34004):
-            query = '''
-                    update IPNdata set place_of_death = (
-                    SELECT Places.id
-                    FROM Places, IPNdata
-                    WHERE
-                    Places.place_of_death = IPNdata.place_of_death
-                    AND Places.community = IPNdata.community
-                    AND Places.district = IPNdata.district
-                    AND Places.province = IPNdata.province
-                    AND IPNdata.id = ?)
-                    WHERE IPNdata.id = ?
-                    '''
-            cur = conn.cursor()
-            cur.execute(query, [i, i])
-            conn.commit()
-
 
 class Scraper:
     def __init__(self, link):
