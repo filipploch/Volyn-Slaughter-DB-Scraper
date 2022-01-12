@@ -17,7 +17,6 @@ class DatabaseSetup:
             print(e)
         return conn
 
-
     def add_record_to_db(self, conn, data):
         query = '''
                 INSERT INTO IPNdata
@@ -109,6 +108,11 @@ class Victim:
 
 
 if __name__ == '__main__':
+    conn = DatabaseSetup().create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''CREATE TABLE IF NOT EXISTS IPNData
+             (id INTEGER NOT NULL PRIMARY KEY, link, name, death_date, province, district, community, place_of_death, death_info,
+                number_of_victims, nationality, place_of_living, congregation, source, attachment, also_check)''')
     for site in range(2835):
         if not site:
             site_link = 'https://zbrodniawolynska.pl/zw1/form/247,Baza-Ofiar-Zbrodni-Wolynskiej.html'
@@ -116,7 +120,7 @@ if __name__ == '__main__':
             site_link = f'https://zbrodniawolynska.pl/zw1/form/247,Baza-Ofiar-Zbrodni-Wolynskiej.html?page={site}'
         links = VictimLinkGetter(site_link).get_all_links()
         for link in links:
-            conn = DatabaseSetup().create_connection()
+
             with conn:
                 link = f'https://zbrodniawolynska.pl{link["href"]}'
                 victim = Victim(VictimDataScraper(link).get_data())
